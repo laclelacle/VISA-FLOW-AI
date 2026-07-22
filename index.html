@@ -659,6 +659,13 @@ select:focus,input:focus{outline:none;border-color:var(--blue-mid);box-shadow:0 
 }
 .btn-login:hover{opacity:.92;transform:translateY(-1px)}
 .login-hint{font-size:11px;color:var(--gray-400);margin-top:16px;line-height:1.6}
+.th-logout-btn{
+  padding:7px 14px;border-radius:8px;
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.75);font-size:12px;font-weight:600;
+  cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;
+}
+.th-logout-btn:hover{background:rgba(255,255,255,0.14);color:#fff}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -703,6 +710,7 @@ select:focus,input:focus{outline:none;border-color:var(--blue-mid);box-shadow:0 
   <div class="th-right">
     <div class="th-badge"><div class="th-badge-dot"></div>공공데이터 연결됨</div>
     <div class="th-notice-btn" onclick="showPage('notice');markNoticeRead()" id="notice-bell">🔔<div class="dot" id="notice-dot"></div></div>
+    <button class="th-logout-btn" onclick="handleLogout()" title="로그아웃">🚪 로그아웃</button>
   </div>
 </header>
 
@@ -1906,7 +1914,14 @@ function handleLogin(e){
   }
   return false;
 }
-
+function handleLogout(){
+  sessionStorage.removeItem('vf_logged_in');
+  document.getElementById('app-root').style.display = 'none';
+  document.getElementById('login-screen').style.display = '';
+  document.getElementById('login-id').value = '';
+  document.getElementById('login-pw').value = '';
+  document.getElementById('login-error').classList.remove('show');
+}
 // 같은 브라우저 탭(세션)에서는 다시 로그인하지 않도록 유지
 if (sessionStorage.getItem('vf_logged_in') === '1') {
   document.getElementById('login-screen').style.display = 'none';
